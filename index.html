@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asasira Queen Pinklen Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+<style>
+:root{
+  --bg-color:#0f172a;
+  --text-color:#fff;
+  --highlight:#ec4899;
+  --card-bg: rgba(255,255,255,0.05);
+}
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  color: var(--text-color);
+  transition: all 0.5s ease;
+  scroll-behavior: smooth;
+  overflow-x:hidden;
+  position:relative;
+}
+.toggle-btn{
+  position: fixed; top:20px; left:20px;
+  background: #21759B; border:none;
+  padding:10px 20px; border-radius:25px; cursor:pointer;
+  color:white; font-weight:600; box-shadow:0 0 10px #21759B;
+  z-index:1002;
+}
+.toggle-btn:hover{transform:scale(1.1);}
+body.light-mode{
+  --bg-color:#f9f9f9;
+  --text-color:#0f172a;
+  --card-bg: rgba(0,0,0,0.05);
+}
+
+/* Canvas background */
+#circuit-bg{
+  position: fixed; top:0; left:0;
+  width:100%; height:100%;
+  z-index:-3;
+  background: var(--bg-color);
+}
+
+/* Hero + About Me Side-by-Side */
+.hero-bio{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  padding:4rem 2rem;
+  gap:3rem;
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+.hero-left{
+  flex:1; min-width:250px; text-align:center;
+}
+.hero-left img{
+  border-radius:50%; border:4px solid #21759B;
+  width:180px; height:180px;
+  box-shadow:0 0 20px #21759B;
+}
+.hero-left h1{
+  margin-top:1rem; font-size:2rem;
+  background:linear-gradient(90deg,#21759B,#306998);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.hero-left p{font-size:1.1rem; margin-top:0.5rem;}
+.hero-right{
+  flex:1; min-width:250px;
+}
+.hero-right h2{
+  font-size:1.8rem; margin-bottom:1rem;
+  background:linear-gradient(90deg,#21759B,#306998);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.hero-right p{font-size:1.1rem; line-height:1.6;}
+
+/* Skills */
+.skills{display:flex; flex-wrap:wrap; justify-content:center; gap:20px; padding:4rem 2rem;}
+.skill-card{
+  background: var(--card-bg); padding:1.5rem 2rem;
+  border-radius:20px; text-align:center; width:150px;
+  transition:all 0.3s ease; cursor:default; backdrop-filter:blur(15px);
+}
+.skill-card:hover{transform:scale(1.05); box-shadow:0 0 20px #21759B;}
+.skill-card img{width:48px;height:48px;}
+.skill-card h3{margin-top:0.5rem;font-size:1.1rem;}
+
+/* Projects */
+.projects{display:flex; flex-wrap:wrap; justify-content:center; gap:20px; padding:4rem 2rem;}
+.project-card{perspective:1000px; width:250px; height:200px;}
+.card-inner{
+  position:relative; width:100%; height:100%;
+  transition:transform 0.6s; transform-style:preserve-3d; cursor:pointer;
+}
+.project-card:hover .card-inner{transform:rotateY(180deg);}
+.card-front,.card-back{
+  position:absolute; width:100%; height:100%; backface-visibility:hidden;
+  border-radius:15px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  color:white; padding:1rem; text-align:center;
+}
+.card-back{transform:rotateY(180deg);}
+.card-back a{color:white;text-decoration:underline;margin-top:0.5rem;}
+
+/* Contact Icons */
+.contact-icons{
+  padding:2rem 0; text-align:center;
+}
+.contact-icons a{
+  font-size:2rem; margin:0 15px; color:var(--text-color);
+  transition:0.3s;
+}
+.contact-icons a:hover{color:#ec4899; transform:scale(1.2);}
+
+/* Contact Form */
+.contact-form{
+  padding:4rem 2rem; text-align:center;
+}
+.contact-form form{
+  display:flex; flex-direction:column; align-items:center; gap:1rem;
+  max-width:400px; margin:auto;
+}
+.contact-form input, .contact-form textarea{
+  padding:0.5rem; width:100%; border-radius:8px; border:none;
+}
+.contact-form button{
+  padding:0.7rem 1.5rem; border:none; background:#21759B; color:white; border-radius:25px; cursor:pointer;
+}
+.contact-form button:hover{background:#306998;}
+
+/* Responsive */
+@media(max-width:768px){.skills,.projects,.hero-bio{flex-direction:column; align-items:center;}}
+
+/* Hamburger Menu Toggle */
+.menu-toggle{
+  position: fixed;
+  top:20px; right:20px;
+  font-size:2rem;
+  cursor:pointer;
+  z-index:1001;
+  color:#21759B;
+  transition: transform 0.3s;
+}
+.menu-toggle:hover{transform:rotate(10deg);}
+
+/* Slide-Out Menu */
+.menu{
+  position: fixed;
+  top:0; right:-250px; 
+  width:250px;
+  height:100vh;
+  background:#0f172a;
+  backdrop-filter:blur(10px);
+  box-shadow:-2px 0 10px rgba(0,0,0,0.5);
+  transition: right 0.3s ease;
+  z-index:1000;
+  display:flex; align-items:center; justify-content:center;
+}
+.menu ul{
+  list-style:none; padding:0; margin:0; text-align:center;
+}
+.menu ul li{margin:30px 0;}
+.menu ul li a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:600;
+  font-size:1.2rem;
+  transition: color 0.3s;
+}
+.menu ul li a:hover{color:#ec4899;}
+
+/* Show Menu */
+.menu.show{
+  right:0;
+}
+</style>
+</head>
+<body>
+
+<!-- Dark/Light Toggle -->
+<button class="toggle-btn" onclick="toggleMode()">🌙 / ☀️</button>
+
+<!-- Hamburger Menu Toggle -->
+<div class="menu-toggle" onclick="toggleMenu()">
+  <span>☰</span>
+</div>
+
+<!-- Hidden Slide-Out Menu -->
+<nav class="menu">
+  <ul>
+    <li><a href="#bio">About Me</a></li>
+    <li><a href="#projects">View Projects</a></li>
+    <li><a href="#contact-form">Contact</a></li>
+    <li><a href="https://github.com/queenpink25" target="_blank">GitHub</a></li>
+  </ul>
+</nav>
+
+<!-- Canvas Background -->
+<canvas id="circuit-bg"></canvas>
+
+<!-- Hero + About Me Section -->
+<section class="hero-bio">
+  <!-- Left: Image + Name + Tagline -->
+  <div class="hero-left">
+    <img src="profile.jpg" alt="Profile Picture">
+    <h1>Asasira Queen Pinklen</h1>
+    <p>Software Developer| AI Enthusiast |Digital Strategist </p>
+  </div>
+  
+  <!-- Right: About Me -->
+  <div class="hero-right">
+    <h2>About Me</h2>
+    <p>Hello! I’m <strong>Queen </strong> a passionate software developer and digital strategist from Uganda. I specialize in crafting modern web solutions and leveraging technology to boost business visibility. With a keen eye for strategy, I help startups and brands amplify their online presence, build secure & scalable platforms, and achieve measurable impact. I love combining creativity with tech to deliver smart, efficient, and results-driven digital experiences.</p>
+  </div>
+</section>
+
+<!-- Skills -->
+<section class="skills">
+  <div class="skill-card" style="border-top:4px solid #306998;">
+    <img src="https://img.icons8.com/color/48/python.png"/><h3>Python</h3>
+  </div>
+  <div class="skill-card" style="border-top:4px solid #e34f26;">
+    <img src="https://img.icons8.com/color/48/html-5.png"/><h3>HTML</h3>
+  </div>
+  <div class="skill-card" style="border-top:4px solid #1572B6;">
+    <img src="https://img.icons8.com/color/48/css3.png"/><h3>CSS</h3>
+  </div>
+  <div class="skill-card" style="border-top:4px solid #092E20;">
+    <img src="https://img.icons8.com/color/48/django.png"/><h3>Django</h3>
+  </div>
+  <div class="skill-card" style="border-top:4px solid #21759B;">
+    <img src="https://img.icons8.com/color/48/wordpress.png"/><h3>WordPress</h3>
+  </div>
+</section>
+
+<!-- Projects -->
+<section class="projects" id="projects">
+  <div class="project-card">
+    <div class="card-inner">
+      <div class="card-front" style="background:#21759B;">
+        <h3>CareLink UG</h3>
+        <p>Click to see details</p>
+      </div>
+      <div class="card-back" style="background:#1E3A8A;">
+        <p>Django & WordPress platform for booking nannies in Uganda.</p>
+        <a href="https://github.com/queenpink25/carelink" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="project-card">
+    <div class="card-inner">
+      <div class="card-front" style="background:#306998;">
+        <h3>FAMA</h3>
+        <p>Click to see details</p>
+      </div>
+      <div class="card-back" style="background:#1B365D;">
+        <p>Crew scheduling & fatigue tracking system.</p>
+        <a href="https://github.com/queenpink25/FAMA-PROJECT" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="project-card">
+    <div class="card-inner">
+      <div class="card-front" style="background:#306998;">
+        <h3>Portfolio</h3>
+        <p>Click to see details</p>
+      </div>
+      <div class="card-back" style="background:#1B365D;">
+        <p>Campaign Portfolio.</p>
+        <a href="https://github.com/queenpink25/fst-grc-campaign-asasira-queen-pinklen" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="project-card">
+    <div class="card-inner">
+      <div class="card-front" style="background:#1572B6;">
+        <h4>Tymio</h4>
+        <p>Click to see details</p>
+      </div>
+      <div class="card-back" style="background:#0F3A5D;">
+        <p>Attendance system with dashboards & alerts.</p>
+        <a href="https://github.com/queenpink25/tymio" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </div>
+
+    
+</section>
+
+<!-- Contact Form -->
+<section class="contact-form" id="contact-form">
+  <h2>Contact Me</h2>
+  <form action="https://formspree.io/f/xqeydvay" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+<!-- Contact Icons -->
+<section class="contact-icons">
+  <a href="mailto:queenpink25@gmail.com"><i class="fas fa-envelope"></i></a>
+  <a href="tel:+256705184054"><i class="fas fa-phone"></i></a>
+  <a href="https://wa.me/256726048368" target="_blank"><i class="fab fa-whatsapp"></i></a>
+  <a href="https://www.linkedin.com/in/asasira-queen-pinklen-500883252/" target="_blank"><i class="fab fa-linkedin"></i></a>
+  <a href="https://www.youtube.com/@techandteawithroyalcoder" target="_blank"><i class="fab fa-youtube"></i></a>
+  <a href="https://x.com/asasiraqueen?s=11" target="_blank"><i class="fab fa-twitter"></i></a>
+  <a href="https://www.instagram.com/asasira_queen_pinklen" target="_blank"><i class="fab fa-instagram"></i></a>
+</section>
+
+<script>
+// Dark/Light Mode
+function toggleMode(){document.body.classList.toggle('light-mode');}
+
+// Hamburger Menu Toggle
+function toggleMenu(){document.querySelector('.menu').classList.toggle('show');}
+
+// Circuit Background
+const canvas = document.getElementById('circuit-bg');
+const ctx = canvas.getContext('2d');
+let w = canvas.width = window.innerWidth;
+let h = canvas.height = window.innerHeight;
+
+let nodes = [];
+const NODE_COUNT = 60;
+
+class Node {
+  constructor(){
+    this.x = Math.random()*w;
+    this.y = Math.random()*h;
+    this.radius = 2 + Math.random()*2;
+    this.vx = (Math.random()-0.5)*0.3;
+    this.vy = (Math.random()-0.5)*0.3;
+  }
+  draw(){
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.radius,0,Math.PI*2);
+    ctx.fillStyle='#21759B';
+    ctx.fill();
+  }
+  update(){
+    this.x += this.vx; this.y += this.vy;
+    if(this.x<0 || this.x>w) this.vx*=-1;
+    if(this.y<0 || this.y>h) this.vy*=-1;
+  }
+}
+
+for(let i=0;i<NODE_COUNT;i++) nodes.push(new Node());
+
+let mouse={x:null,y:null};
+window.addEventListener('mousemove', e=>{ mouse.x=e.clientX; mouse.y=e.clientY; });
+
+function connect(){
+  for(let i=0;i<nodes.length;i++){
+    for(let j=i+1;j<nodes.length;j++){
+      let dx=nodes[i].x-nodes[j].x;
+      let dy=nodes[i].y-nodes[j].y;
+      let dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<120){
+        ctx.beginPath();
+        ctx.strokeStyle=`rgba(33,117,155, ${1-dist/120})`;
+        ctx.lineWidth=1;
+        ctx.moveTo(nodes[i].x,nodes[i].y);
+        ctx.lineTo(nodes[j].x,nodes[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function draw(){
+  ctx.clearRect(0,0,w,h);
+  nodes.forEach(n=>{
+    n.update(); n.draw();
+    if(mouse.x && mouse.y){
+      let dx=n.x-mouse.x; let dy=n.y-mouse.y;
+      let dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<100){ n.x+=dx*0.01; n.y+=dy*0.01; }
+    }
+  });
+  connect();
+  requestAnimationFrame(draw);
+}
+draw();
+
+window.addEventListener('resize', ()=>{
+  w=canvas.width=window.innerWidth;
+  h=canvas.height=window.innerHeight;
+});
+</script>
+
+</body>
+</html>
